@@ -24,7 +24,9 @@ public class WalletService {
         if(walletDb.isPresent()){
             throw new WalletDataAlreadyExistsException("Cpf/Cnpj or Email already exists");
         }
-
-        return walletRepository.save(walletDTO.toWallet());
+        var cpfCnpjLimpo = walletDTO.cpfCnpj().replaceAll("[^0-9]", "");
+        var entity = walletDTO.toWallet();
+        entity.setCpfCnpj(cpfCnpjLimpo);
+        return walletRepository.save(entity);
     }
 }

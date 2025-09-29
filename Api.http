@@ -8,9 +8,9 @@ POST http://localhost:8080/wallets
 Content-Type: application/json
 
 {
-  "fullName": "mateus madeira",
-  "cpfCnpj": "123456789098",
-  "email": "mafemad2005@gmail.com",
-  "password": "1234",
+  "fullName": "",
+  "cpfCnpj": "",
+  "email": "",
+  "password": "",
   "walletType": "USER"
 }

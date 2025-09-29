@@ -1,5 +1,6 @@
 package mateus.madeira.desafiopicpay.controller;
 
+import jakarta.validation.Valid;
 import mateus.madeira.desafiopicpay.controller.dto.CreateWalletRequestDTO;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.service.WalletService;
@@ -18,7 +19,7 @@ public class WalletController {
     }
 
     @PostMapping("/wallets")
-    public ResponseEntity<Wallet> createWallet(@RequestBody CreateWalletRequestDTO walletDTO) {
+    public ResponseEntity<Wallet> createWallet(@RequestBody @Valid CreateWalletRequestDTO walletDTO) {
         Wallet createdWallet = walletService.createWallet(walletDTO);
 
         return ResponseEntity.ok(createdWallet);
