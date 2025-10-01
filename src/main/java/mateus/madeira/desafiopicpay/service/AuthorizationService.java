@@ -2,6 +2,7 @@ package mateus.madeira.desafiopicpay.service;
 
 import mateus.madeira.desafiopicpay.client.AuthorizationClient;
 import mateus.madeira.desafiopicpay.client.dto.AuthorizationResponse;
+import mateus.madeira.desafiopicpay.controller.dto.TransferDTO;
 import mateus.madeira.desafiopicpay.entity.Transfer;
 import mateus.madeira.desafiopicpay.exceptions.PicPayException;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class AuthorizationService {
         this.authorizationClient = authorizationClient;
     }
 
-    public Boolean isAuthorized(Transfer transfer) {
+    public Boolean isAuthorized(TransferDTO transfer) {
 
         ResponseEntity<List<AuthorizationResponse>> response = authorizationClient.isAuthorized();
 

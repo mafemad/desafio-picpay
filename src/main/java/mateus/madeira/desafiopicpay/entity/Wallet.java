@@ -1,6 +1,8 @@
 package mateus.madeira.desafiopicpay.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
@@ -40,6 +42,25 @@ public class Wallet {
         this.email = email;
         this.password = password;
         this.walletType = walletType;
+    }
+
+    public boolean isTransferAllowedForWalletType() {
+        return this.walletType.equals(WalletType.WalletTypeEnum.USER.getWalletType());
+    }
+
+
+    public boolean isBalanceEqualOrGreaterThan(BigDecimal value) {
+
+        return this.balance.doubleValue() > value.doubleValue();
+    }
+
+
+    public void debit(BigDecimal value) {
+        this.balance = this.balance.subtract(value);
+    }
+
+    public void credit(BigDecimal value) {
+        this.balance = this.balance.add(value);
     }
 
     public Long getId() {
@@ -97,4 +118,5 @@ public class Wallet {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
 }

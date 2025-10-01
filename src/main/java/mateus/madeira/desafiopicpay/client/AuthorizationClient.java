@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(
+        name = "AuthorizationClient",
         url = "${client.authorization-service.url}"
 )
 public interface AuthorizationClient {

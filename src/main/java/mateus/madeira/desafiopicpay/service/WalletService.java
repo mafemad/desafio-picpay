@@ -6,6 +6,7 @@ import mateus.madeira.desafiopicpay.exceptions.WalletDataAlreadyExistsException;
 import mateus.madeira.desafiopicpay.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,9 @@ public class WalletService {
         var entity = walletDTO.toWallet();
         entity.setCpfCnpj(cpfCnpjLimpo);
         return walletRepository.save(entity);
+    }
+
+    public List<Wallet> getAll() {
+        return this.walletRepository.findAll();
     }
 }

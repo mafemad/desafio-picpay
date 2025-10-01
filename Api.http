@@ -8,9 +8,21 @@ POST http://localhost:8080/wallets
 Content-Type: application/json
 
 {
-  "fullName": "",
-  "cpfCnpj": "",
-  "email": "",
-  "password": "",
-  "walletType": "USER"
+  "fullName": "merchant",
+  "cpfCnpj": "618.079.820-68",
+  "email": "merchant@email.com",
+  "password": "Merchant123!",
+  "walletType": "MERCHANT"
+}
+###
+GET http://localhost:8080/wallets
+
+###
+POST http://localhost:8080/transfer
+Content-Type: application/json
+
+{
+  "value": 1,
+  "payer": 1,
+  "payee": 4
 }
