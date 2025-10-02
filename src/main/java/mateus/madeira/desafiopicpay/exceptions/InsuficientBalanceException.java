@@ -22,7 +22,7 @@ public class InsuficientBalanceException extends PicPayException {
         var pd = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         pd.setTitle("Insuficient Balance");
         pd.setDetail("you cannot transfer an amount: " + this.trasnferValue+
-                "bigger than your current balance: "  + this.senderBalance+".");
+                " bigger than your current balance: "  + this.senderBalance+".");
         return pd;
     }
 }
