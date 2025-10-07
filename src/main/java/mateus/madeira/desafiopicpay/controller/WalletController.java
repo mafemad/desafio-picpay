@@ -36,6 +36,11 @@ public class WalletController {
         return ResponseEntity.ok(wallets);
     }
 
+    @GetMapping("/{walletId}")
+    public ResponseEntity<WalletResponseDTO> getWallet(@PathVariable("walletId") Long walletId) {
+        return ResponseEntity.ok(walletService.getWalletById(walletId));
+    }
+
     @PostMapping("/{walletId}/deposit")
     public ResponseEntity<Wallet> deposit(@PathVariable("walletId") Long walletId,
                                           @RequestBody @Valid WalletDepositDTO walletDepositDTO ) {

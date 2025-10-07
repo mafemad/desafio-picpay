@@ -42,8 +42,11 @@ public class WalletService {
         return wallets.stream().map(WalletResponseDTO::new).toList();
     }
 
-    public Optional<Wallet> getWalletById(Long id) {
-        return this.walletRepository.findById(id);
+    public WalletResponseDTO getWalletById(Long id) {
+
+        var wallet = walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException(id));
+
+        return  new WalletResponseDTO(wallet);
     }
 
     public Wallet deposit(WalletDepositDTO depositDto, Long walletId){

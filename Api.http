@@ -15,7 +15,7 @@ Content-Type: application/json
   "walletType": "MERCHANT"
 }
 ###
-GET http://localhost:8080/wallets
+GET http://localhost:8080/wallets/1
 
 ###
 POST http://localhost:8080/transfer
