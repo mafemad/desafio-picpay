@@ -1,10 +1,10 @@
-package mateus.madeira.desafiopicpay.controller.dto;
+package mateus.madeira.desafiopicpay.dto.wallet;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import mateus.madeira.desafiopicpay.controller.dto.validation.CpfCnpj;
+import mateus.madeira.desafiopicpay.dto.validation.CpfCnpj;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.entity.WalletType;
 

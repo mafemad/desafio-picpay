@@ -1,4 +1,4 @@
-package mateus.madeira.desafiopicpay.controller.dto;
+package mateus.madeira.desafiopicpay.dto.transfer;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

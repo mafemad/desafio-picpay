@@ -1,4 +1,4 @@
-package mateus.madeira.desafiopicpay.controller.dto.validation;
+package mateus.madeira.desafiopicpay.dto.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
