@@ -1,10 +1,7 @@
 package mateus.madeira.desafiopicpay.controller;
 
 import jakarta.validation.Valid;
-import mateus.madeira.desafiopicpay.controller.dto.CreateWalletRequestDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletDepositDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletResponseDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletWithdrawDTO;
+import mateus.madeira.desafiopicpay.dto.wallet.*;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.service.WalletService;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +54,18 @@ public class WalletController {
 
         return ResponseEntity.ok(wallet);
 
+    }
+
+    @PatchMapping("/{walletId}")
+    public ResponseEntity<WalletResponseDTO> updateWallet(@PathVariable("walletId") Long walletId,
+                                                          @RequestBody @Valid UpdateWalletRequestDTO updateDto) {
+        var updatedWallet = walletService.updateWallet(walletId, updateDto);
+        return ResponseEntity.ok(updatedWallet);
+    }
+
+    @DeleteMapping("/{walletId}")
+    public ResponseEntity<Void> deleteWallet(@PathVariable("walletId") Long walletId) {
+        walletService.deleteWallet(walletId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -8,14 +8,19 @@ POST http://localhost:8080/wallets
 Content-Type: application/json
 
 {
-  "fullName": "merchant",
-  "cpfCnpj": "618.079.820-68",
-  "email": "merchant@email.com",
-  "password": "Merchant123!",
-  "walletType": "MERCHANT"
+  "fullName": "teste metodos",
+  "cpfCnpj": "887.031.680-77",
+  "email": "testando@email.com",
+  "password": "Teste123!",
+  "walletType": "USER"
 }
 ###
-GET http://localhost:8080/wallets/1
+POST http://localhost:8080/wallets/6/withdraw
+Content-Type: application/json
+
+{
+  "amount": 100
+}
 
 ###
 POST http://localhost:8080/transfer
@@ -26,3 +31,14 @@ Content-Type: application/json
   "payer": 1,
   "payee": 4
 }
+
+###
+PUT http://localhost:8080/wallets/6
+Content-Type: application/json
+
+{
+  "email": "mafemad203@gmail.com"
+}
+
+###
+DELETE http://localhost:8080/wallets/6

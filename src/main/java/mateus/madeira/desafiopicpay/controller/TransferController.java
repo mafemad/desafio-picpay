@@ -1,7 +1,7 @@
 package mateus.madeira.desafiopicpay.controller;
 
 import jakarta.validation.Valid;
-import mateus.madeira.desafiopicpay.controller.dto.TransferDTO;
+import mateus.madeira.desafiopicpay.dto.transfer.TransferDTO;
 import mateus.madeira.desafiopicpay.entity.Transfer;
 import mateus.madeira.desafiopicpay.service.TransferService;
 import org.springframework.http.ResponseEntity;

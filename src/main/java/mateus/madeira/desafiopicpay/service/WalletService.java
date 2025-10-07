@@ -1,16 +1,16 @@
 package mateus.madeira.desafiopicpay.service;
 
-import mateus.madeira.desafiopicpay.controller.dto.CreateWalletRequestDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletDepositDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletResponseDTO;
-import mateus.madeira.desafiopicpay.controller.dto.WalletWithdrawDTO;
+import jakarta.transaction.Transactional;
+import mateus.madeira.desafiopicpay.dto.wallet.*;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.exceptions.InsuficientBalanceException;
 import mateus.madeira.desafiopicpay.exceptions.WalletDataAlreadyExistsException;
+import mateus.madeira.desafiopicpay.exceptions.WalletHasBalanceException;
 import mateus.madeira.desafiopicpay.exceptions.WalletNotFoundException;
 import mateus.madeira.desafiopicpay.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +25,19 @@ public class WalletService {
 
     public Wallet createWallet(CreateWalletRequestDTO walletDTO) {
 
-        Optional<Wallet> walletDb = walletRepository.findByCpfCnpjOrEmail(walletDTO.cpfCnpj(), walletDTO.email());
-
-        if(walletDb.isPresent()){
-            throw new WalletDataAlreadyExistsException("Cpf/Cnpj or Email already exists");
-        }
         var cpfCnpjLimpo = walletDTO.cpfCnpj().replaceAll("[^0-9]", "");
         var entity = walletDTO.toWallet();
+
+        walletRepository.findByCpfCnpj(cpfCnpjLimpo)
+                .ifPresent(w -> {
+                    throw new WalletDataAlreadyExistsException("Cpf/Cnpj already exists");
+                });
+
+        walletRepository.findByEmail(walletDTO.email())
+                .ifPresent(w -> {
+                    throw new WalletDataAlreadyExistsException("Email already exists");
+                });
+
         entity.setCpfCnpj(cpfCnpjLimpo);
         return walletRepository.save(entity);
     }
@@ -77,4 +83,61 @@ public class WalletService {
        return wallet;
 
     }
+
+    @Transactional
+    public WalletResponseDTO updateWallet(Long id, UpdateWalletRequestDTO updateDto) {
+        var wallet = walletRepository.findById(id)
+                .orElseThrow(() -> new WalletNotFoundException(id));
+
+
+        if(updateDto.cpfCnpj() != null) {
+            var cpfCnpjLimpo = updateDto.cpfCnpj().replaceAll("[^0-9]", "");
+            walletRepository.findByCpfCnpj(cpfCnpjLimpo)
+                    .filter(w -> !w.getId().equals(id))
+                    .ifPresent(w -> {
+                        throw new WalletDataAlreadyExistsException("Cpf/Cnpj already exists");
+                    });
+        }
+
+        if(updateDto.email() != null) {
+            walletRepository.findByEmail(updateDto.email())
+                    .filter(w -> !w.getId().equals(id))
+                    .ifPresent(w -> {
+                        throw new WalletDataAlreadyExistsException("Email already exists");
+                    });
+        }
+
+        if (updateDto.fullName() != null && !updateDto.fullName().isBlank()) {
+            wallet.setFullName(updateDto.fullName());
+        }
+
+        if (updateDto.email() != null && !updateDto.email().isBlank()) {
+            wallet.setEmail(updateDto.email());
+        }
+
+        if (updateDto.cpfCnpj() != null && !updateDto.cpfCnpj().isBlank()) {
+            wallet.setCpfCnpj(updateDto.cpfCnpj());
+        }
+
+        if (updateDto.password() != null && !updateDto.password().isBlank()) {
+            wallet.setPassword(updateDto.password());
+        }
+
+        var updatedWallet = walletRepository.save(wallet);
+
+        return new WalletResponseDTO(updatedWallet);
+    }
+
+    @Transactional
+    public void deleteWallet(Long id) {
+        var wallet = walletRepository.findById(id)
+                .orElseThrow(() -> new WalletNotFoundException(id));
+
+        if (wallet.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+            throw new WalletHasBalanceException(id);
+        }
+
+        walletRepository.delete(wallet);
+    }
+
 }

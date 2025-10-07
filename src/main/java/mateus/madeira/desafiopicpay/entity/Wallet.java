@@ -51,7 +51,7 @@ public class Wallet {
 
     public boolean isBalanceEqualOrGreaterThan(BigDecimal value) {
 
-        return this.balance.doubleValue() > value.doubleValue();
+        return this.balance.doubleValue() >= value.doubleValue();
     }
 
 

@@ -2,8 +2,7 @@ package mateus.madeira.desafiopicpay.service;
 
 import mateus.madeira.desafiopicpay.client.AuthorizationClient;
 import mateus.madeira.desafiopicpay.client.dto.AuthorizationResponse;
-import mateus.madeira.desafiopicpay.controller.dto.TransferDTO;
-import mateus.madeira.desafiopicpay.entity.Transfer;
+import mateus.madeira.desafiopicpay.dto.transfer.TransferDTO;
 import mateus.madeira.desafiopicpay.exceptions.PicPayException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

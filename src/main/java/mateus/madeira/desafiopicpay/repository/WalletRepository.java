@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
 
-    Optional<Wallet> findByCpfCnpjOrEmail(String cpfCnpj, String email);
+    Optional<Wallet> findByCpfCnpj(String cpfCnpj);
+
+    Optional<Wallet> findByEmail(String email);
 }
