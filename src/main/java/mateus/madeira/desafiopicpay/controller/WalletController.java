@@ -3,6 +3,7 @@ package mateus.madeira.desafiopicpay.controller;
 import jakarta.validation.Valid;
 import mateus.madeira.desafiopicpay.controller.dto.CreateWalletRequestDTO;
 import mateus.madeira.desafiopicpay.controller.dto.WalletDepositDTO;
+import mateus.madeira.desafiopicpay.controller.dto.WalletResponseDTO;
 import mateus.madeira.desafiopicpay.controller.dto.WalletWithdrawDTO;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.service.WalletService;
@@ -29,7 +30,7 @@ public class WalletController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Wallet>> getAllWallets() {
+    public ResponseEntity<List<WalletResponseDTO>> getAllWallets() {
         var wallets = walletService.getAll();
 
         return ResponseEntity.ok(wallets);

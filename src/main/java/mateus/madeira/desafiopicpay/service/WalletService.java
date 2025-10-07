@@ -2,6 +2,7 @@ package mateus.madeira.desafiopicpay.service;
 
 import mateus.madeira.desafiopicpay.controller.dto.CreateWalletRequestDTO;
 import mateus.madeira.desafiopicpay.controller.dto.WalletDepositDTO;
+import mateus.madeira.desafiopicpay.controller.dto.WalletResponseDTO;
 import mateus.madeira.desafiopicpay.controller.dto.WalletWithdrawDTO;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.exceptions.InsuficientBalanceException;
@@ -35,8 +36,10 @@ public class WalletService {
         return walletRepository.save(entity);
     }
 
-    public List<Wallet> getAll() {
-        return this.walletRepository.findAll();
+    public List<WalletResponseDTO> getAll() {
+        var wallets =this.walletRepository.findAll();
+
+        return wallets.stream().map(WalletResponseDTO::new).toList();
     }
 
     public Optional<Wallet> getWalletById(Long id) {
