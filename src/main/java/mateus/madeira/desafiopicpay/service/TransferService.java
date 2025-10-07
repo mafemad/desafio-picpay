@@ -5,10 +5,7 @@ import jakarta.validation.Valid;
 import mateus.madeira.desafiopicpay.controller.dto.TransferDTO;
 import mateus.madeira.desafiopicpay.entity.Transfer;
 import mateus.madeira.desafiopicpay.entity.Wallet;
-import mateus.madeira.desafiopicpay.exceptions.InsuficientBalanceException;
-import mateus.madeira.desafiopicpay.exceptions.TransferNotAllowedForWalletTypeException;
-import mateus.madeira.desafiopicpay.exceptions.TransferNotAuthorizedException;
-import mateus.madeira.desafiopicpay.exceptions.WalletNotFoundException;
+import mateus.madeira.desafiopicpay.exceptions.*;
 import mateus.madeira.desafiopicpay.repository.TransferRepository;
 import mateus.madeira.desafiopicpay.repository.WalletRepository;
 import org.springframework.stereotype.Service;
@@ -23,12 +20,15 @@ public class TransferService {
     private final NotificationService notificationService;
     private final AuthorizationService authorizationService;
     private final WalletRepository walletRepository;
+    private final IdempotencyService idempotencyService;
 
-    public TransferService(TransferRepository transferRepository, NotificationService notificationService, AuthorizationService authorizationService, WalletRepository walletRepository) {
+
+    public TransferService(TransferRepository transferRepository, NotificationService notificationService, AuthorizationService authorizationService, WalletRepository walletRepository, IdempotencyService idempotencyService) {
         this.transferRepository = transferRepository;
         this.notificationService = notificationService;
         this.authorizationService = authorizationService;
         this.walletRepository = walletRepository;
+        this.idempotencyService = idempotencyService;
     }
 
     @Transactional
@@ -38,6 +38,16 @@ public class TransferService {
 
         var receiver = walletRepository.findById(transferDto.payee())
                 .orElseThrow(() -> new WalletNotFoundException(transferDto.payee()));
+
+        boolean canProceed = idempotencyService.tryRegisterTransfer(
+                sender.getId(),
+                receiver.getId(),
+                transferDto.value()
+        );
+
+        if (!canProceed) {
+            throw new DuplicateTransferException("Identical transfer detected in the last 60 seconds.");
+        }
 
         validateTransfer(transferDto, sender);
 
