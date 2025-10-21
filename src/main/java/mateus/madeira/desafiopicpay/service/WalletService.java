@@ -1,6 +1,7 @@
 package mateus.madeira.desafiopicpay.service;
 
 import jakarta.transaction.Transactional;
+import mateus.madeira.desafiopicpay.dto.auth.CreateWalletRequestDTO;
 import mateus.madeira.desafiopicpay.dto.wallet.*;
 import mateus.madeira.desafiopicpay.entity.Wallet;
 import mateus.madeira.desafiopicpay.exceptions.InsuficientBalanceException;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WalletService {
@@ -21,25 +21,6 @@ public class WalletService {
 
     public WalletService(WalletRepository walletRepository) {
         this.walletRepository = walletRepository;
-    }
-
-    public Wallet createWallet(CreateWalletRequestDTO walletDTO) {
-
-        var cpfCnpjLimpo = walletDTO.cpfCnpj().replaceAll("[^0-9]", "");
-        var entity = walletDTO.toWallet();
-
-        walletRepository.findByCpfCnpj(cpfCnpjLimpo)
-                .ifPresent(w -> {
-                    throw new WalletDataAlreadyExistsException("Cpf/Cnpj already exists");
-                });
-
-        walletRepository.findByEmail(walletDTO.email())
-                .ifPresent(w -> {
-                    throw new WalletDataAlreadyExistsException("Email already exists");
-                });
-
-        entity.setCpfCnpj(cpfCnpjLimpo);
-        return walletRepository.save(entity);
     }
 
     public List<WalletResponseDTO> getAll() {

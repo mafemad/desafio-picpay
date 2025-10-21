@@ -8,15 +8,16 @@ POST http://localhost:8080/wallets
 Content-Type: application/json
 
 {
-  "fullName": "teste metodos",
-  "cpfCnpj": "887.031.680-77",
-  "email": "testando@email.com",
-  "password": "Teste123!",
+  "fullName": "mateus madeira",
+  "cpfCnpj": "37338190801",
+  "email": "mafemad2005@gmail.com",
+  "password": "Mafemad2005!",
   "walletType": "USER"
 }
 ###
-POST http://localhost:8080/wallets/6/withdraw
+POST http://localhost:8080/wallets/4/deposit
 Content-Type: application/json
+Authorization: Bearer #token aqui
 
 {
   "amount": 100
@@ -41,4 +42,26 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/wallets/6
+DELETE http://localhost:8080/wallets/
+
+
+###
+POST localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "mateus madeira",
+  "cpfCnpj": "18563277871",
+  "email": "mafemad2004@gmail.com",
+  "password": "Mafemad2005!",
+  "walletType": "USER"
+}
+
+###
+POST localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "mafemad2004@gmail.com",
+  "password": "Mafemad2005!"
+}

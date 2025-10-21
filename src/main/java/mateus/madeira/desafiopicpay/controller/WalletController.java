@@ -19,13 +19,6 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @PostMapping()
-    public ResponseEntity<Wallet> createWallet(@RequestBody @Valid CreateWalletRequestDTO walletDTO) {
-        Wallet createdWallet = walletService.createWallet(walletDTO);
-
-        return ResponseEntity.ok(createdWallet);
-    }
-
     @GetMapping
     public ResponseEntity<List<WalletResponseDTO>> getAllWallets() {
         var wallets = walletService.getAll();

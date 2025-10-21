@@ -1,4 +1,4 @@
-package mateus.madeira.desafiopicpay.dto.wallet;
+package mateus.madeira.desafiopicpay.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
