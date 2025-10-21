@@ -36,7 +36,7 @@ public class WalletService {
         return  new WalletResponseDTO(wallet);
     }
 
-    public Wallet deposit(WalletDepositDTO depositDto, Long walletId){
+    public WalletResponseDTO deposit(WalletDepositDTO depositDto, Long walletId){
 
         var wallet = walletRepository.findById(walletId).orElseThrow(
                 () -> new WalletNotFoundException(walletId)
@@ -46,10 +46,10 @@ public class WalletService {
 
         walletRepository.save(wallet);
 
-        return wallet;
+        return new WalletResponseDTO(wallet);
     }
 
-    public Wallet withdraw(Long walletId, WalletWithdrawDTO withdrawDto){
+    public WalletResponseDTO withdraw(Long walletId, WalletWithdrawDTO withdrawDto){
         var wallet = walletRepository.findById(walletId).orElseThrow(
                 () -> new WalletNotFoundException(walletId)
         );
@@ -61,7 +61,7 @@ public class WalletService {
        wallet.debit(withdrawDto.amount());
        walletRepository.save(wallet);
 
-       return wallet;
+       return new WalletResponseDTO(wallet);
 
     }
 
